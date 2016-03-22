@@ -32,6 +32,13 @@
                      rows="1" cols="100"></sf:textarea><br />
       <sf:errors path="author" cssClass="error"></sf:errors></td>
     </tr>
+
+      <td class="label"><spring:message code="label.desc" />:</td>
+      <td><sf:textarea class="control" path="description" name="text"
+                       rows="4" cols="100"></sf:textarea><br />
+          <sf:errors path="description" cssClass="error"></sf:errors></td>
+      </tr>
+
     <tr>
       <td class="label"><spring:message code="label.genre" />:</td>
       <td><sf:select path="genre" items="${genre}"></sf:select><br />

@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `onlibrary`.`books` (
   `title` VARCHAR(255) NOT NULL COMMENT '',
   `author` VARCHAR(255) NOT NULL COMMENT '',
   `genre` VARCHAR(255) NOT NULL COMMENT '',
+  `description` VARCHAR(255) NOT NULL COMMENT '',
   `filename` VARCHAR(255) NOT NULL COMMENT '',
   PRIMARY KEY (`id`)  COMMENT '')
 ENGINE = InnoDB

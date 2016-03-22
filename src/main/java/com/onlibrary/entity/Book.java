@@ -10,6 +10,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Store;
+
 
 @Entity
 @Table(name="books")
@@ -18,121 +24,114 @@ public class Book {
 	@Id
 	@GeneratedValue
 	private int id;
-	
-	@Size(min=2, max = 255)
-	@Column(name="title")
+
+    @Column(name = "title", nullable= false, length = 128)
+    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String title;
 
-	@Size(min=2, max = 255)
-	@Column(name="author")
+    @Column(name = "author", nullable= false, length = 64)
+    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String author;
 
 	@Size(min=2, max = 255)
-	@Column(name="genre")
+    @Column(name = "genre", nullable= false, length = 64)
 	private String genre;
 
+    @Column(name = "description", nullable= false, length = 256)
+    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+    private String description;
 
-	@Size(min=2, max = 255)
-	@Column(name="filename")
+    @Column(name = "filename", nullable= false, length = 256)
 	private String filename;
 	
 	public Book() {
 
 	}
 
-	public Book(String title, String author, String genre, String filename) {
+	public Book(String title, String author, String genre, String description, String filename) {
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
+        this.description =  description;
 		this.filename = filename;
 	}
 
-	public Book(int id, String title, String author, String genre, String filename) {
+	public Book(int id, String title, String author, String genre, String description, String filename) {
 		this.id = id;
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
+        this.description =  description;
 		this.filename = filename;
 	}
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getAuthor() {
-		return author;
-	}
+    public String getAuthor() {
+        return author;
+    }
 
-	public void setAuthor(String author) {
-		this.author = author;
-	}
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-	public String getGenre() {
-		return genre;
-	}
+    public String getGenre() {
+        return genre;
+    }
 
-	public void setGenre(String genre) {
-		this.genre = genre;
-	}
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
 
-	public String getFilename() {
-		return filename;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		result = prime * result + ((author == null) ? 0 : author.hashCode());
-		return result;
-	}
+    public String getFilename() {
+        return filename;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Book other = (Book) obj;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
-			return false;
-		if (author== null) {
-			if (other.author != null)
-				return false;
-		} else if (!author.equals(other.author))
-			return false;
-		return true;
-	}
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
-	@Override
-	public String toString() {
-		return "Book{" +
-				"name='" + title + '\'' +
-				", author='" + author + '\'' +
-				", genre='" + genre + '\'' +
-				", filename='" + filename + '\'' +
-				'}';
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book book = (Book) o;
+
+        if (!title.equals(book.title)) return false;
+        if (!author.equals(book.author)) return false;
+        return genre.equals(book.genre);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title.hashCode();
+        result = 31 * result + author.hashCode();
+        result = 31 * result + genre.hashCode();
+        return result;
+    }
+
 }

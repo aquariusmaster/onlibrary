@@ -91,7 +91,7 @@ public class BooksHibernateDao implements BooksDao {
             QueryBuilder qb = fullTextSession.getSearchFactory()
                     .buildQueryBuilder().forEntity(Book.class).get();
             org.apache.lucene.search.Query query = qb
-                    .keyword().onFields("description", "title", "author")
+                    .keyword().onFields("description", "title", "author", "genre")
                     .matching(searchText)
                     .createQuery();
 

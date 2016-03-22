@@ -53,7 +53,7 @@ public class BooksController {
 
         System.out.println("Home Controller: add");
 
-        Book b = new Book("Book1","I'm", "Sci-Fi", "filename.pdf");
+
 
         //booksDao.save(b, pdffile);
 
@@ -114,6 +114,16 @@ public class BooksController {
 
 
         return "bookcreated";
+    }
+
+    @RequestMapping(value = "/doSearch", method = RequestMethod.POST)
+    public String search(Model model, @RequestParam("searchText") String searchText) throws Exception
+    {
+        List<Book> allFound = booksDao.searchForBook(searchText);
+
+        model.addAttribute("searchText", searchText);
+        model.addAttribute("bookList", allFound);
+        return "books";
     }
 
     @RequestMapping(value = "/get/{filename}", method = RequestMethod.GET)

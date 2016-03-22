@@ -7,16 +7,18 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title>Book</title>
+    <title>Book ${book.title}</title>
 </head>
 <body>
-<h2>This is your book</h2>
+<h2>Book ${book.id}</h2>
 <div>
-  <p><strong>Title: </strong> ${book.title}</p>
-  <p><strong>Author: </strong> ${book.author}</p>
-  <p><strong>Genre: </strong> ${book.genre}</p>
+  <p><strong><spring:message code="label.title" />: </strong> ${book.title}</p>
+  <p><strong><spring:message code="label.author" />: </strong> ${book.author}</p>
+  <p><strong><spring:message code="label.genre" />: </strong> ${book.genre}</p>
+  <p><strong><spring:message code="label.desc" />: </strong> ${book.description}</p>
   <p><strong>Download: </strong> <a href="<c:url value="/get/${book.filename}"/>">Link</a> </p>
 
 </div>

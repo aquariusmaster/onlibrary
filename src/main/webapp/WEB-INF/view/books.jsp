@@ -15,7 +15,14 @@
 
 
 
-<p>Search:</p>
+<h1>Search for Books</h1>
+<form action="doSearch" method="post">
+    Search: <input type="text" name="searchText" value="<c:if test='${searchText!=null}'>
+            <c:out value='${searchText}'/>
+        </c:if>"/><br/>
+    <input type="reset"/>
+    <input type="submit"/>
+</form>
 <hr>
 <div>
 

@@ -15,5 +15,5 @@ public interface BooksDao {
     void save(Book book, MultipartFile pdffile) throws BookUploadException;
     void delete(int bookId);
     List<Book> getAllBooks();
-
+    public List<Book> searchForBook(String searchText) throws Exception;
 }
