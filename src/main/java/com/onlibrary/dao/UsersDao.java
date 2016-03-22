@@ -18,4 +18,6 @@ public interface UsersDao {
     User getUserById(int id);
 
     User getUserByEmail(String email);
+
+    boolean exists(String username);
 }

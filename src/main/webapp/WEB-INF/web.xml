@@ -10,6 +10,8 @@
   	<welcome-file-list>
   		<welcome-file>/WEB-INF/index.jsp</welcome-file>
   	</welcome-file-list>
+
+    <!-- Базовый сервлет, обрабатывает все запросы к приложению -->
     <servlet>
         <servlet-name>onlibrary</servlet-name>
         <servlet-class>
@@ -21,11 +23,47 @@
         <servlet-name>onlibrary</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <!-- Описание корневого контейнера, разделяемого всеми сервлетами и фильтрами -->
     <context-param>
 	    <param-name>contextConfigLocation</param-name>
-	    <param-value>/WEB-INF/onlibrary-servlet.xml</param-value>
+        <param-value>
+            classpath:application-context.xml
+        </param-value>
 	</context-param>
+
+    <!-- Создаёт контейнер Spring, разделяемый всеми сервлетами и фильтрами -->
     <listener>
 	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+
+    <!-- Фильтр для перекодировки в utf8 -->
+    <filter>
+        <filter-name>charsetFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>charsetFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Фильтр для Spring Security -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
 </web-app>

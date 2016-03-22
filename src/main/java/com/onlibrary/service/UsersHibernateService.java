@@ -37,4 +37,8 @@ public class UsersHibernateService implements UsersService{
     public User getUserByEmail(String email) {
         return null;
     }
+
+    public boolean exists(String username) {
+        return usersDao.exists(username);
+    }
 }

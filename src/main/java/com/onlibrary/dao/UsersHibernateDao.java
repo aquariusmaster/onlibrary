@@ -16,6 +16,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository("usersDao")
 public class UsersHibernateDao implements UsersDao {
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -34,7 +35,7 @@ public class UsersHibernateDao implements UsersDao {
 
     @Transactional
     public void create(User user) {
-        user.setPassword(user.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         this.sessionFactory.getCurrentSession().save(user);
     }
     @Transactional

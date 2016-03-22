@@ -25,7 +25,7 @@
 
   <c:forEach var="book" items="${booksList}">
 
-      <li><a href="<c:url value="/book/${book.id}"/>">Title:${book.title} Author:${book.author}</a></li>
+      <li><a href="<c:url value="/book/${book.id}"/>">${book.title} ${book.author}</a></li>
 
   </c:forEach>
 

@@ -9,7 +9,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 
 import java.lang.Object;import java.lang.Override;import java.lang.String;import java.util.HashSet;
@@ -19,16 +24,26 @@ import java.util.Set;
 @Table(name="users")
 public class User {
 
+
+    @NotBlank
+    @Size(min=8, max=15)
+    @Pattern(regexp="^\\w{8,}$")
 	@Id
 	@Column(name="username")
 	private String username;
 
+    @NotBlank
+    //@Pattern(regexp="^\\S+$")
+    @Size(min=6, max=15, message="The password must be at least 6 characters long.")
 	@Column(name="password")
 	private String password;
-	
+
+    @Email
 	@Column(name="email")
 	private String email;
 
+    @NotBlank
+    @Size(min=8, max=60)
 	@Column(name="name")
 	private String name;
 
