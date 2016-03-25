@@ -4,13 +4,11 @@ package com.onlibrary.controller;
  * Created by harkonnen on 15.03.16.
  */
 
-import com.onlibrary.dao.BooksDao;
 import com.onlibrary.entity.Book;
-import com.onlibrary.entity.User;
 import com.onlibrary.exception.BookUploadException;
+import com.onlibrary.service.BooksService;
 import com.onlibrary.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
@@ -18,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -29,7 +26,7 @@ import org.apache.log4j.Logger;
 public class BooksController {
 
     @Autowired()
-    private BooksDao booksDao;
+    private BooksService booksService;
 
     @Autowired()
     private UsersService usersService;
@@ -43,7 +40,7 @@ public class BooksController {
             DEBUG_LOGGER.debug("BooksController.showBooks() is executed!");
         }
 
-        model.addAttribute("booksList", booksDao.getAllBooks());
+        model.addAttribute("booksList", booksService.getAllBooks());
 
         return "books";
     }
@@ -51,13 +48,13 @@ public class BooksController {
     @RequestMapping("/add")
     public String addBooks(Model model) {
 
-        System.out.println("Home Controller: add");
+        if( DEBUG_LOGGER.isDebugEnabled()){
+            DEBUG_LOGGER.debug("BooksController.addBooks() is executed!");
+        }
 
+        //booksService.save(b, pdffile);
 
-
-        //booksDao.save(b, pdffile);
-
-        model.addAttribute("booksList", booksDao.getAllBooks());
+        model.addAttribute("booksList", booksService.getAllBooks());
 
         return "books";
     }
@@ -79,7 +76,7 @@ public class BooksController {
     @RequestMapping(value = "/book/{bookId}", method = RequestMethod.GET)
     public String showBook(Model model, @PathVariable int bookId) {
 
-        Book book = booksDao.getBookById(bookId);
+        Book book = booksService.getBookById(bookId);
         model.addAttribute("book", book);
 
         return "book";
@@ -105,7 +102,7 @@ public class BooksController {
             if(!pdffile.isEmpty()) {
                 validateImage(pdffile);// Проверить файл
 
-                booksDao.save(book, pdffile); // Сохранить книгу и файл
+                booksService.save(book, pdffile); // Сохранить книгу и файл
             }
         } catch (BookUploadException e) {
             result.reject(e.getMessage());
@@ -119,7 +116,7 @@ public class BooksController {
     @RequestMapping(value = "/doSearch", method = RequestMethod.POST)
     public String search(Model model, @RequestParam("searchText") String searchText) throws Exception
     {
-        List<Book> allFound = booksDao.searchForBook(searchText);
+        List<Book> allFound = booksService.searchForBook(searchText);
 
         model.addAttribute("searchText", searchText);
         model.addAttribute("bookList", allFound);
