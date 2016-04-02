@@ -9,22 +9,23 @@
 
        <global-method-security pre-post-annotations="enabled"/>
 
-    <http access-denied-page="/denied">
-        <intercept-url pattern="/book*" access="ROLE_USER,ROLE_ANONYMOUS" />
-        <intercept-url pattern="/add*" access="ROLE_ADMIN" />
-        <intercept-url pattern="/delete/*" access="ROLE_ADMIN" />
+
+    <http auto-config="true">
+        <intercept-url pattern="/add*" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/delete/*" access="hasRole('ROLE_ADMIN')" />
+
         <form-login login-page="/login" default-target-url="/index"
                     authentication-failure-url="/login?error=true" />
         <logout logout-url="/logout" logout-success-url="/index" />
-
-        <anonymous username="guest" granted-authority="ROLE_ANONYMOUS" />
+        <access-denied-handler error-page="/denied" />
+        <anonymous username="guest" granted-authority="hasRole('ROLE_ANONYMOUS')" />
         <remember-me key="onlibraryAppKey" user-service-ref="jdbcUserService" />
     </http>
 
-       <beans:bean name="passwordEncoder"
+    <beans:bean name="passwordEncoder"
                    class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
-       <authentication-manager alias="authenticationManager">
+    <authentication-manager alias="authenticationManager">
               <authentication-provider>
                      <password-encoder ref="passwordEncoder"/>
                      <jdbc-user-service data-source-ref="dataSource"
@@ -33,6 +34,6 @@
                                         id="jdbcUserService" />
 
               </authentication-provider>
-       </authentication-manager>
+    </authentication-manager>
 
 </beans:beans>
