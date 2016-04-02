@@ -50,7 +50,7 @@ public class BooksHibernateDaoTest extends TestCase {
     @Test
     public void testGetAllBooks() throws Exception {
         List<Book> books = booksDao.getAllBooks();
-        assertEquals("Books size must be 1", books.size(), 1);
+        assertEquals("Books size must be 1", books.size(), 2);
     }
 
     @Test
