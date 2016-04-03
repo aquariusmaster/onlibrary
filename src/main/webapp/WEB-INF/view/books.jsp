@@ -14,7 +14,7 @@
 <body>
 
 
-
+<div align="right"><a href="/login">Login</a> </div>
 <h1>Search for Books</h1>
 <form action="doSearch" method="post">
     Search: <input type="text" name="searchText" value="<c:if test='${searchText!=null}'>

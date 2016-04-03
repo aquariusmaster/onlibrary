@@ -50,7 +50,7 @@ public class LoginController {
     }
 
     @RequestMapping(value="/createaccount", method= RequestMethod.POST)
-    public String createAccount(@ModelAttribute("user") @Valid User user, BindingResult result) {
+    public String createAccount(@Valid User user, BindingResult result) {
 
         if(result.hasErrors()) {
             return "newaccount";
