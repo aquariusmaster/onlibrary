@@ -2,6 +2,7 @@ package com.onlibrary.controller;
 
 import com.onlibrary.entity.User;
 import com.onlibrary.service.UsersService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ public class LoginController {
 
     @Autowired
     private UsersService usersService;
+
+    private static final Logger LOGGER = Logger.getLogger(LoginController.class);
 
     @RequestMapping("/login")
     public String showLogin() {
@@ -53,6 +56,7 @@ public class LoginController {
     public String createAccount(@Valid User user, BindingResult result) {
 
         if(result.hasErrors()) {
+            LOGGER.error("User saving error");
             return "newaccount";
         }
 
@@ -63,7 +67,7 @@ public class LoginController {
             result.rejectValue("username", "DuplicateKey.user.username");
             return "newaccount";
         }
-
+        System.out.println("Password:" + user.getPassword());
         try {
             usersService.create(user);
         } catch (DuplicateKeyException e) {
@@ -71,6 +75,7 @@ public class LoginController {
             return "newaccount";
         }
 
+        LOGGER.info("User saved: " + user);
         return "accountcreated";
     }
 }

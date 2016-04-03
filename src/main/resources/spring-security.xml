@@ -7,16 +7,16 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security.xsd">
 
-       <global-method-security pre-post-annotations="enabled"/>
 
+    <global-method-security pre-post-annotations="enabled"/>
 
     <http auto-config="true">
         <intercept-url pattern="/add*" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/delete/*" access="hasRole('ROLE_ADMIN')" />
 
-        <form-login login-page="/login" default-target-url="/index"
+        <form-login login-page="/login" default-target-url="/"
                     authentication-failure-url="/login?error=true" />
-        <logout logout-url="/logout" logout-success-url="/index" />
+        <logout logout-url="/logout" logout-success-url="/" />
         <access-denied-handler error-page="/denied" />
         <anonymous username="guest" granted-authority="hasRole('ROLE_ANONYMOUS')" />
         <remember-me key="onlibraryAppKey" user-service-ref="jdbcUserService" />

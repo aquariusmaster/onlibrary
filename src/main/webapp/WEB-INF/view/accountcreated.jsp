@@ -12,5 +12,6 @@
 </head>
 <body>
 <p>Your account has been created.</p>
+<p><a href="/books">Go Home</a> </p>
 </body>
 </html>

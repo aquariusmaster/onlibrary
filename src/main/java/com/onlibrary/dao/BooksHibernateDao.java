@@ -30,7 +30,7 @@ public class BooksHibernateDao implements BooksDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    private static final Logger DEBUG_LOGGER = Logger.getLogger(BooksHibernateDao.class);
+    private static final Logger LOGGER = Logger.getLogger(BooksHibernateDao.class);
 
     public List<Book> getAllBooks() {
 
@@ -52,11 +52,14 @@ public class BooksHibernateDao implements BooksDao {
         try {
             File file = new File("onlibrary-storage/" + filename);
             FileUtils.writeByteArrayToFile(file, pdffile.getBytes());
-            if( DEBUG_LOGGER.isDebugEnabled()){
-                DEBUG_LOGGER.debug("Book is saved in: " + file.getAbsolutePath());
+            if( LOGGER.isInfoEnabled()){
+                LOGGER.info("Book is saved in: " + file.getAbsolutePath());
             }
         } catch (IOException e) {
+            LOGGER.error("Unable to save image", e);
+
             throw new BookUploadException("Unable to save image", e);
+
         }
         book.setFilename(filename);
         this.sessionFactory.getCurrentSession().saveOrUpdate(book);

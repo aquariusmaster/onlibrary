@@ -34,7 +34,8 @@ public class User {
 
     @NotBlank
     //@Pattern(regexp="^\\S+$")
-    @Size(min=6, max=15, message="The password must be at least 6 characters long.")
+    @Size(min=6, message="The password must be at least 6 characters long.")
+
 	@Column(name="password")
 	private String password;
 
