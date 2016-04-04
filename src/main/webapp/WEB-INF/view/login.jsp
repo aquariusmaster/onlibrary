@@ -31,7 +31,7 @@
 
 
 <form name='f'
-      action='${pageContext.request.contextPath}/j_spring_security_check'
+      action='<c:url value="/j_spring_security_check"></c:url>'
       method='POST'>
   <table class="formtable">
     <tr>
@@ -50,6 +50,9 @@
     <tr>
       <td colspan='2'><input name="submit" type="submit" value="Login" /></td>
     </tr>
+      <input type="hidden"
+             name="${_csrf.parameterName}"
+             value="${_csrf.token}"/>
   </table>
 </form>
 

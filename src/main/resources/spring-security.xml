@@ -11,15 +11,17 @@
     <global-method-security pre-post-annotations="enabled"/>
 
     <http auto-config="true">
-        <intercept-url pattern="/add*" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/delete/*" access="hasRole('ROLE_ADMIN')" />
-
-        <form-login login-page="/login" default-target-url="/"
-                    authentication-failure-url="/login?error=true" />
-        <logout logout-url="/logout" logout-success-url="/" />
+        <intercept-url pattern="/" access="permitAll"/>
         <access-denied-handler error-page="/denied" />
-        <anonymous username="guest" granted-authority="hasRole('ROLE_ANONYMOUS')" />
-        <remember-me key="onlibraryAppKey" user-service-ref="jdbcUserService" />
+        <form-login
+                login-page="/login"
+                default-target-url="/"
+                authentication-failure-url="/login?error=true"
+                login-processing-url="/j_spring_security_check"/>
+        <logout logout-url="/logout" logout-success-url="/" />
+        <remember-me user-service-ref="jdbcUserService" />
+        <!-- enable csrf protection -->
+        <csrf />
     </http>
 
     <beans:bean name="passwordEncoder"
@@ -27,7 +29,7 @@
 
     <authentication-manager alias="authenticationManager">
               <authentication-provider>
-                     <password-encoder ref="passwordEncoder"/>
+                     <!--<password-encoder ref="passwordEncoder"/> -->
                      <jdbc-user-service data-source-ref="dataSource"
                                         authorities-by-username-query='select username, authority from users where binary username = ?'
                                         users-by-username-query='select username, password, enabled from users where binary username = ?'
