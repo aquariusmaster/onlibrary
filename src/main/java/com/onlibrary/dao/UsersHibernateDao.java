@@ -35,7 +35,7 @@ public class UsersHibernateDao implements UsersDao {
 
     @Transactional
     public void create(User user) {
-        //user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         this.sessionFactory.getCurrentSession().save(user);
     }
     @Transactional

@@ -12,5 +12,7 @@
 </head>
 <body>
 <p>You have logged out.</p>
+<p><a href="/login">Log in</a></p>
+<p><a href="/">Go home</a></p>
 </body>
 </html>
