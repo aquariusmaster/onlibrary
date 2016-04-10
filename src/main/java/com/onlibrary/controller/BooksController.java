@@ -45,33 +45,6 @@ public class BooksController {
         return "books";
     }
 
-    @RequestMapping("/add")
-    public String addBooks(Model model) {
-
-        if( DEBUG_LOGGER.isDebugEnabled()){
-            DEBUG_LOGGER.debug("BooksController.addBooks() is executed!");
-        }
-
-        //booksService.save(b, pdffile);
-
-        model.addAttribute("booksList", booksService.getAllBooks());
-
-        return "books";
-    }
-
-
-
-
-    @RequestMapping("/users")
-    public String showUsers(Model model) {
-
-        System.out.println("Home Controller showUsers");
-
-        model.addAttribute("usersList", usersService.getAllUsers());
-
-        return "users";
-    }
-
 
     @RequestMapping(value = "/book/{bookId}", method = RequestMethod.GET)
     public String showBook(Model model, @PathVariable int bookId) {
@@ -84,34 +57,40 @@ public class BooksController {
 
 
     @RequestMapping("/newbook")
-    public String showNewAccount(Model model) {
+    public String newBook(Model model) {
 
         model.addAttribute("book", new Book());
         model.addAttribute("genre", initializeGenre());
-        return "createbook";
+        return "newbook";
     }
-    @RequestMapping(value="/docreate", method= RequestMethod.POST)
-    public String createAccount(@Valid Book book, BindingResult result, @RequestParam(value="file", required=true)
+
+
+    @RequestMapping(value="/savebook", method= RequestMethod.POST)
+    public String saveBook(@Valid Book book, BindingResult result, @RequestParam(value="file", required=false)
     MultipartFile pdffile) {
 
+        if( DEBUG_LOGGER.isDebugEnabled()){
+            DEBUG_LOGGER.debug("BooksController.createBook() is executed!");
+        }
         if(result.hasErrors()) {
-            return "createbook";
+            return "newbook";
         }
 
         try {
             if(!pdffile.isEmpty()) {
-                validateImage(pdffile);// Проверить файл
+                validatePDFFile(pdffile);// Check file for pdf type
 
-                booksService.save(book, pdffile); // Сохранить книгу и файл
+                booksService.save(book, pdffile); // try save book and file
             }
         } catch (BookUploadException e) {
             result.reject(e.getMessage());
-            return "createbook";
+            return "newbook";
         }
 
 
         return "bookcreated";
     }
+
 
     @RequestMapping(value = "/doSearch", method = RequestMethod.POST)
     public String search(Model model, @RequestParam("searchText") String searchText) throws Exception
@@ -130,8 +109,8 @@ public class BooksController {
         return "book";
     }
 
-    private void validateImage(MultipartFile image) throws BookUploadException {
-        if(!image.getContentType().equals("application/pdf")) {
+    private void validatePDFFile(MultipartFile book) throws BookUploadException {
+        if(!book.getContentType().equals("application/pdf")) {
             throw new BookUploadException("Only PDF files accepted");
         }
     }

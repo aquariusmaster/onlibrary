@@ -1,11 +1,7 @@
 package com.onlibrary.entity;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -22,7 +18,7 @@ import org.hibernate.search.annotations.Store;
 public class Book {
 
 	@Id
-	@GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
     @Column(name = "title", nullable= false, length = 128)
@@ -134,4 +130,14 @@ public class Book {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", genre='" + genre + '\'' +
+                ", filename='" + filename + '\'' +
+                '}';
+    }
 }

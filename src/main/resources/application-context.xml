@@ -28,7 +28,8 @@
     <!-- Файл с настройками безопасности-->
     <import resource="spring-security.xml" />
 
-    <!-- Для загрузки и выгрузки файлов
-    <bean id="multipartResolver" class=
-            "org.springframework.web.multipart.commons.CommonsMultipartResolver"/>-->
+    <bean id="filterMultipartResolver"
+          class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+
+    </bean>
 </beans>

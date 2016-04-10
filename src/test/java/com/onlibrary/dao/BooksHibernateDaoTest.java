@@ -15,8 +15,12 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.test.context.web.ServletTestExecutionListener;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -60,6 +64,11 @@ public class BooksHibernateDaoTest extends TestCase {
 
     @Test
     public void testSave() throws Exception {
+        Book book = new Book();
+        book.setAuthor("I am");
+        book.setDescription("Very good book");
+        book.setGenre("cook");
+        book.setFilename("filename");
 
     }
 

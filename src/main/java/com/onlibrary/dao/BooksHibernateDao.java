@@ -2,7 +2,6 @@ package com.onlibrary.dao;
 
 import com.onlibrary.entity.Book;
 import com.onlibrary.exception.BookUploadException;
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -48,17 +47,17 @@ public class BooksHibernateDao implements BooksDao {
     @Transactional
     public void save(Book book, MultipartFile pdffile) throws BookUploadException {
 
-        String filename = pdffile.getOriginalFilename();
+        String filename = pdffile.getName();
         try {
-            File file = new File("onlibrary-storage/" + filename);
-            FileUtils.writeByteArrayToFile(file, pdffile.getBytes());
+            File file = new File(filename);
+            pdffile.transferTo(file);
+
             if( LOGGER.isInfoEnabled()){
                 LOGGER.info("Book is saved in: " + file.getAbsolutePath());
             }
         } catch (IOException e) {
-            LOGGER.error("Unable to save image", e);
-
-            throw new BookUploadException("Unable to save image", e);
+            LOGGER.error("Unable to save file", e);
+            throw new BookUploadException("Unable to save file", e);
 
         }
         book.setFilename(filename);
@@ -74,7 +73,7 @@ public class BooksHibernateDao implements BooksDao {
         Session session = this.sessionFactory.getCurrentSession();
 
         try {
-            File file = new File("onlibrary-storage/" + filename);
+            File file = new File(filename);
             file.delete();
             session.delete(toDelete);
         } catch (Exception e) {

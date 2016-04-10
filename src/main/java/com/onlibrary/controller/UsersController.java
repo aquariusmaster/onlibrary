@@ -23,12 +23,12 @@ import javax.validation.Valid;
  * Created by harkonnen on 21.03.16.
  */
 @Controller
-public class LoginController {
+public class UsersController {
 
     @Autowired
     private UsersService usersService;
 
-    private static final Logger LOGGER = Logger.getLogger(LoginController.class);
+    private static final Logger LOGGER = Logger.getLogger(UsersController.class);
 
     @RequestMapping("/login")
     public String showLogin() {
@@ -87,4 +87,15 @@ public class LoginController {
         LOGGER.info("User saved: " + user);
         return "accountcreated";
     }
+
+    @RequestMapping("/users")
+    public String showUsers(Model model) {
+
+        System.out.println("LoginsController showUsers");
+
+        model.addAttribute("usersList", usersService.getAllUsers());
+
+        return "users";
+    }
+
 }

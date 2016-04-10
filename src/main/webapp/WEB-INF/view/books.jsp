@@ -14,7 +14,10 @@
 <body>
 
 
-<div align="right"><a href="/login">Login</a> </div>
+<div align="right">
+    <a href="/login">Login</a>
+    <a href="/logout">Logout</a>
+</div>
 
 
 <h1>Search for Books</h1>

@@ -37,4 +37,5 @@ public class BooksHibernateService implements BooksService {
     public List<Book> searchForBook(String searchText) throws Exception {
         return booksDao.searchForBook(searchText);
     }
+
 }

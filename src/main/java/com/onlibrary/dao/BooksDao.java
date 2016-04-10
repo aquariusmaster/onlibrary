@@ -16,4 +16,5 @@ public interface BooksDao {
     void delete(int bookId);
     List<Book> getAllBooks();
     public List<Book> searchForBook(String searchText) throws Exception;
+
 }
